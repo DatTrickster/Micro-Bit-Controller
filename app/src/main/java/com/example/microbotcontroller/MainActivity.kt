@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -100,7 +102,8 @@ fun MicrobitControllerUI(baseUrl: String) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .padding(horizontal = 24.dp, vertical = 16.dp),
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+                    .verticalScroll(rememberScrollState()), // <- This enables scrolling
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -371,6 +374,61 @@ fun MicrobitControllerUI(baseUrl: String) {
                                 )
                             ) {
                                 Text("LED Off", fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                }
+
+                // Sounds card - SEPARATE from LED card
+                Card(
+                    shape = RoundedCornerShape(24.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(
+                            elevation = 12.dp,
+                            shape = RoundedCornerShape(24.dp),
+                            clip = true
+                        ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            "Sound Controls",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.SemiBold
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(24.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Button(
+                                onClick = { sendCommand("hoot") },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(52.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondary,
+                                    contentColor = MaterialTheme.colorScheme.onSecondary
+                                ),
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = ButtonDefaults.buttonElevation(
+                                    defaultElevation = 4.dp,
+                                    pressedElevation = 8.dp
+                                )
+                            ) {
+                                Text("Get OUT my way", fontWeight = FontWeight.Bold)
                             }
                         }
                     }
